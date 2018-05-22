@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>watch option 数据监控</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>watch 数据监控</h1>
+  <hr>
+  <div id="app">
+    <p>今日温度：{{wendu}} 度</p>
+    <p>穿衣建议：{{chuanyi}}</p>
+    <p>
+      <button @click="jia">升温</button>
+      <button @click="jian">降温</button>
+    </p>
+  </div>
+
+  <script type="text/javascript">
+    var cyList=["T恤短袖","夹克长裙","羽绒服"]
+    var app=new Vue({
+      el:"#app",
+      data:{
+        wendu:14,
+        chuanyi:'夹克长裙'
+      },
+      methods:{
+        jia:function(){
+          this.wendu++
+        },
+        jian:function(){
+          this.wendu--
+        }
+      }//,
+      // watch:{
+      //   wendu:function(newVal,oldVal){
+      //     if(newVal>=26){
+      //       this.chuanyi=cyList[0]
+      //     }else if(newVal<26 &&newVal>0){
+      //       this.chuanyi=cyList[1]
+      //     }else{
+      //       this.chuanyi=cyList[2]
+      //     }
+      //   }
+      // }
+
+    })
+    app.$watch('wendu',function(newVal,oldVal){
+      if(newVal>=26){
+        this.chuanyi=cyList[0]
+      }else if(newVal<26 &&newVal>0){
+        this.chuanyi=cyList[1]
+      }else{
+        this.chuanyi=cyList[2]
+      }
+    })
+  </script>
+</body>
+</html>

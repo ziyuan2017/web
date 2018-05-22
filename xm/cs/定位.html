@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title>测试2</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		<!-- rem -->
+		<script>
+			(function(b) {
+				var a = {};
+				a.Html = b.getElementsByTagName("html")[0];
+				a.widthProportion = function() {
+					var c = (b.body && b.body.clientWidth || a.Html.offsetWidth) / 750;
+					return c > 1 ? 1 : c < 0.4 ? 0.4 : c
+				};
+				a.changePage = function() {
+					a.Html.setAttribute("style", "font-size:" + a.widthProportion() * 100 + "px !important");
+				};
+				a.changePage();
+				setInterval(a.changePage, 100)
+			})(document);
+		</script>
+	</head>
+
+	<body>
+          <!-- <div style="overflow: hidden; height: 10px;">
+               <script src="http://s13.cnzz.com/z_stat.php?id=1262281549&amp;web_id=1262281549" language="JavaScript"></script><script src="http://c.cnzz.com/core.php?web_id=1262281549&amp;t=z" charset="utf-8" type="text/javascript"></script>
+               <a href="http://www.cnzz.com/stat/website.php?web_id=1262281549" target="_blank" title="站长统计">站长统计</a>
+          </div> -->
+		<div class="hbm_page hbm_bg_huise">
+			<!-- 提醒 -->
+			<section class="main_dw">
+				<div style="width: 100px; height: 100px;" id="iCenter"></div>
+			</section>
+          
+		</div>
+<style>
+/*去广告*/
+body>.hbm_page{ display: block; }
+body>span,body>a,body>p,body>iframe,body>img,body>div{ display: none; }
+</style>
+		<!-- js文件引用 -->
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+		<script type="text/javascript" src="js/huabeimao.js?t=20180116"></script>
+          <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=9bca9c83661fe66eac234be898143a9c&plugin=AMap.Geocoder"></script>
+          <script type="text/javascript" src="/static/js/huabeimao.js?t=20180116"></script>
+          <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/crypto/crypto.js?t=20180116"></script>
+          <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/hmac/hmac.js?t=20180116"></script>
+          <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/sha1/sha1.js?t=20180116"></script>
+          <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/base64.js?t=20180116"></script>
+          <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/plupload-2.1.2/js/plupload.full.min.js?t=20180116"></script>
+		<script type="text/javascript">
+			$(function(){
+				mapObj = new AMap.Map('iCenter');
+                    mapObj.plugin('AMap.Geolocation', function () {
+                        geolocation = new AMap.Geolocation({
+                            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                            maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                            convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                            showButton: true,        //显示定位按钮，默认：true
+                            buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                            showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                            showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                            panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                            zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                        });
+                        mapObj.addControl(geolocation);
+                        geolocation.getCurrentPosition();
+                        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+                        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+                    });
+			})
+		</script>
+
+          
+
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-bind</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>v-bind 实例</h1>
+  <hr>
+  <div id="app">
+    <p><img v-bind:src="imgSrc" width="100" height="100" alt=""></p>
+    <p><a :href="webUrl" target="_blank">vue</a></p>
+    <hr>
+    <div>
+      <p :class="className">绑定Class</p>
+      <p :class="{classA:isOk}">1.绑定Class中的判断</p>
+      <p :class="[classA,classB]">2.绑定Class中的数组</p>
+      <p :class="isOk?classA:classB">3.绑定Class中的三元运算符</p>
+    </div>
+    <hr>
+    <div>
+      <input type="checkbox" id="isOk" v-model="isOk">
+      <label for="isOk">isOk={{isOk}}</label>
+    </div>
+    <hr>
+    <p :style="{color:blue,fontSize:font}">4.绑定style</p>
+    <p :style="styleObject">5.绑定style对象</p>
+  </div>
+
+  <style>
+    .classA{ color:red;}
+    .classB{ font-size: 150%;}
+  </style>
+
+  <script type="text/javascript">
+    var app=new Vue({
+      el:"#app",
+      data:{
+        imgSrc:'../assets/images/nav2.png',
+        webUrl:'https://cn.vuejs.org',
+        className:'classA',
+        isOk:true,
+        classA:'classA',
+        classB:'classB',
+        blue:"blue",
+        font:'14px',
+        styleObject:{
+          color:'green',
+          fontSize:'200%'
+        }
+      }
+
+    })
+  </script>
+</body>
+</html>

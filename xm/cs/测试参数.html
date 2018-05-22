@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+	<head>
+		<title>测试参数</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		<!-- 引用css文件 -->
+          <style>
+               html{ font-size:100px; }
+               body, html { height: 100%; -webkit-tap-highlight-color: transparent; }
+               *,body{padding:0; margin:0;word-wrap:break-word;} 
+               ul,ol{ list-style:none;}
+               a { text-decoration: none;outline:none; color: #FF8200; /* FF Opera */}
+               a:hover { text-decoration: none; } 
+               a:focus{ -moz-outline-style: none; /* FF */ }
+               i,em,strong{ font-style: normal; }
+               input:focus { outline: none; }
+               .page{font-size: 14px; color: #333; padding-left:20px; padding-top:20px;}
+               .main_dw p{ margin:0 20px; font-size: 16px; line-height: 24px;}
+          </style>
+	</head>
+
+	<body>
+		<div class="page">
+			<!-- 提醒 -->
+			<section class="main_dw">
+				<p>userId：<i class="txt1"></i></p>
+				<p>token：<i class="txt2"></i></p>
+				<p>医美下入参：<i class="txt3"></i></p>
+				<p>userId：<i class="txt4"></i></p>
+				<p>timeStamp：<i class="txt5"></i></p>
+				<p>sign：<i class="txt6"></i></p>
+                    <div class="table">
+                    </div>
+			</section>
+          
+		</div>
+          
+
+		<!-- js文件引用 -->
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+		<script type="text/javascript" src="js/huabeimao.js?t=20180116"></script>
+		<script type="text/javascript">
+			$(function(){
+				localStorage.removeItem("userId");
+				localStorage.removeItem("token");
+                    localStorage.setItem("userId","23333");
+                    localStorage.setItem("token","bdbe4dcabfb27aeb49715115644bd54d");
+				var xx = getAuth();
+				$('.txt1').html(localStorage.getItem("userId"));
+				$('.txt2').html(localStorage.getItem("token"));
+				$('.txt3').html(xx.merges);
+				$('.txt4').html(xx.userId);
+				$('.txt5').html(xx.timeStamp);
+				$('.txt6').html(xx.sign);
+			})
+		</script>
+
+	</body>
+</html>

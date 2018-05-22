@@ -1,0 +1,20 @@
+//结束占用的端口
+netstat -ano
+tskill PID
+
+cnpm install -g live-server  //开发的web服务器
+live-server//建起服务器
+
+
+//拉取git请求
+git clone 项目地址
+
+//创建文件
+mkdir 文件名
+
+
+JSON.stringify(d)
+JSON.parse(d)
+
+// this.$router.go(-1);
+// this.$router.go(1);

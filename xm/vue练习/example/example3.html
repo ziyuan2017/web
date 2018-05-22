@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>example on Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+</head>
+<body>
+  <h1>example on Demo</h1>
+  <hr>
+  <div id="app">
+    {{num}}
+    <p><button @click="add">add</button></p>
+  </div>
+  <p><button onclick="reduce()">reduce</button></p>
+  <p><button onclick="reduceOnce()">reduceOnce</button></p>
+  <p><button onclick="off()">off</button></p>
+
+  <script type="text/javascript">
+    var app=new Vue({
+      el:"#app",
+      data:{
+        num:1
+      },
+      methods:{
+        add:function(){
+          this.num++
+        }
+      }
+    })
+    //$on外部添加事件
+    app.$on('reduce',function(){
+      console.log("执行了reduce方法")
+      this.num--
+    })
+    function reduce(){
+      //调用事件
+      app.$emit("reduce")
+    }
+    function off(){
+      //关闭事件
+      app.$off("reduce")
+    }
+
+    //$once外部添加事件只执行一次
+    app.$once('reduceOnce',function(){
+      console.log("执行了reduceOnce方法(只执行一次)")
+      this.num--
+    })
+    function reduceOnce(){
+      app.$emit("reduceOnce")
+    }
+  </script>
+</body>
+</html>

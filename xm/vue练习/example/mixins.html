@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>mixins 混入选项操作</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>mixins 混入选项操作</h1>
+  <hr>
+  <div id="app">
+    {{num}}
+    <p><button @click="add" type="button">add</button></p>
+  </div>
+
+  <script type="text/javascript">
+    var addConsole={
+      updated:function(){
+        //相比于原生先执行
+        console.log('数据发生变化，变成了'+this.num+'我是局部的混入，优先级第二')
+      }
+    }
+    Vue.mixin({
+      updated:function(){
+        //优先级最高
+        console.log("我是全局的混入，优先级最高")
+      }
+    })
+    var app=new Vue({
+      el:"#app",
+      data:{
+        num:1
+      },
+      methods:{
+        add:function(){
+          this.num++
+        }
+      },
+      mixins:[addConsole],
+      updated:function(){
+        console.log("我是原生的，优先级最低")
+      }
+    })
+  </script>
+</body>
+</html>

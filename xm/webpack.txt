@@ -1,0 +1,60 @@
+//初始化
+npm init
+
+//项目目录的安装
+npm install --save-dev webpack
+
+
+webpack4
+//打包 lodash 依赖
+npm install --save lodash
+//打包文件
+npx webpack src/index.js --output dist/bundle.js
+//通过新配置再次执行构建 
+npx webpack --config webpack.config.js
+
+//通过新配置再次执行构建,效果同上
+npm run build
+
+
+//管理资源-------------------------
+//安装并添加 style-loader 和 css-loader （样式）
+npm install --save-dev style-loader css-loader
+//安装并添加file-loader （图片 文件）
+npm install --save-dev file-loader
+//数据
+npm install --save-dev csv-loader xml-loader
+
+//管理输出-------------------------
+//将所有js路径自动加到index.html
+npm install --save-dev html-webpack-plugin
+//每次构建前清理 /dist 文件夹
+pm install clean-webpack-plugin --save-dev
+
+//监测代码 相当于代码发生改变时执行 npm run build
+npm run watch
+
+//开发---------------
+//简单的 web 服务器，并且能够实时重新加载(live reloading)
+npm install --save-dev webpack-dev-server
+//浏览器自动加载页面。如果现在修改和保存任意源文件，web 服务器就会自动重新加载编译后的代码
+npm start
+//把 webpack 处理后的文件传递给一个服务器(server)
+npm install --save-dev express webpack-dev-middleware
+//打开浏览器，跳转到 http://localhost:3000，你应该看到你的webpack 应用程序已经运行
+npm run server
+
+
+//模块热更新------------------
+//热更新有时可能无效重新安装webpack
+npm install webpack
+
+
+//移除 JavaScript 上下文中的未引用代码--------------
+//添加一个能够删除未引用代码(dead code)的压缩工具(minifier)
+npm install --save-dev uglifyjs-webpack-plugin
+//
+npm install babel-core babel-loader --save-dev
+npm install babel-core --save-dev
+
+

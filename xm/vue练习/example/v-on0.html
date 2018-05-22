@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>v-on实例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>v-on实例</h1>
+  <hr>
+  <div id="app">
+    <h1>本场得分：{{mark}}</h1>
+    <div>
+      <button v-on:click="add">加分</button>
+      <button v-on:click="reduce">减分</button>
+      <br/>
+      <input type="text" v-on:keyup.enter="onEnter" v-model="mark2">
+    </div>
+    <div>
+      <button @click="add">加分</button>
+      <button @click="reduce">减分</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var app=new Vue({
+      el:"#app",
+      data:{
+        mark:0,
+        mark2:1
+      },
+      methods:{
+        add:function(){
+          this.mark++
+        },
+        reduce:function(){
+          if(this.mark>=1)
+            this.mark--
+        },
+        onEnter:function(){
+          if(this.mark2>0)
+            this.mark=this.mark+parseInt(this.mark2)
+        }
+      }
+    })
+  </script>
+</body>
+</html>

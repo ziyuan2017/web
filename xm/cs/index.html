@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>es6</title>
+</head>
+<body>
+  <div class="aa"></div>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+
+  <script type="text/javascript">
+  // (function ($) {
+  //    console.log('333')
+  //    $.fn.myPluginName = function(txt){
+  //        return this.html(txt);
+  //    }
+  //    $.fn.txtss = function(arg){
+  //       //console.log(this)
+  //        return this.toArray().join(arg);
+  //    }
+  //    $.fn.join = function(arg) {
+  //      return this.toArray().join(arg);
+  //    }
+  //
+  // })(jQuery);
+  //
+  // $(function(){
+  //    $('.aa').myPluginName('111');
+  //    var arr=['0','1']
+  //    console.log(arr.txtss())
+  // })
+  var target = {
+   name: 'obj'
+ };
+ var logHandler = {
+   get: function(target, key) {
+     console.log(`${key} 被读取`,target);
+     return target[key];
+   },
+   set: function(target, key, value) {
+     console.log(`${key} 被设置为 ${value}`,target);
+     target[key] = value;
+   }
+ }
+ var targetWithLog = new Proxy(target, logHandler);
+ targetWithLog.name; // 控制台输出：name 被读取
+ targetWithLog.name = 'others'; // 控制台输出：name 被设置为 others
+  console.log(target.name); // 控制台输出: others
+
+var user= new Proxy({}, {
+  get: function(obj, key) {
+    if(key='full_name'){
+      //console.log(obj)
+        return obj.fname+" "+obj.lname;
+    }
+  },
+  set: function(obj, key, value) {
+    obj[key] = value;
+  }
+});
+user.fname='aa22';
+user.lname='bb22';
+console.log(user.full_name);
+
+  var obj={};
+  var user2 =new Proxy(obj,{
+    get:function(obj,prop){
+      //console.log(obj,prop,1)
+      if(prop='full_name'){
+        //console.log(obj)
+          return obj.fname+" "+obj.lname;
+      }
+
+    },
+    set:function(obj,prop,value){
+      obj[prop] = value;
+    }
+  });
+  user2.fname='aa22';
+  console.log(user2.fname)
+  user2.lname='bb22';
+  console.log(user2.full_name);
+
+  class Animal {
+      constructor () {
+          this.type = 'animal'
+      }
+      says(say) {
+          console.log(this.type + 'says' + say)
+      }
+  }
+   let animal = new Animal()
+   animal.says('hello') // animal says hello
+
+   class Cat extends Animal {
+       constructor() {
+           super()
+           this.type = 'cat'
+       }
+   }
+   let cat = new Cat()
+       cat.says('hello') // cat says hello
+
+   function add(...values) {
+       let sum = 0
+       for(var val of values) {
+           sum += val
+       }
+       return sum
+    }
+    add('1','w')//"01w"
+
+    //es5默认值
+    function action(num) {
+        num = num || 200
+        //当传入num时，num为传入的值
+        //当没传入参数时，num即有了默认值200
+        return num
+    }
+
+    //es6默认值
+    function action(num = 200) {
+        console.log(num)
+    }
+    action(0) // 0
+    action() //200
+    action(300) //300
+
+    var calculate1 = function(x, y, z) {
+      if (typeof x != number) { x = 0 }
+      if (typeof y != number) { y = 6 }
+
+      var dwt = x % y
+      var result
+
+      if (dwt == z) { result = true }
+      if (dwt != z) { result = false }
+
+      return result
+    }
+
+    const calculate2 = (x, y, z) => {
+      x = typeof x !== 'number' ? 0 : x
+      y = typeof y !== 'number' ? 6 : y
+      return x % y === z
+    }
+
+    // const people = {
+    //     name: 'lux',
+    //     getName: function() {
+    //         console.log(this.name)
+    //     }
+    // }
+    //
+    // const people = {
+    //     name: 'lux',
+    //     getName() {
+    //         console.log(this.name)
+    //     }
+    // }
+    const objA = { name: 'cc', age: 18 }
+    const objB = { address: 'beijing' }
+    const objC = {} // 这个为目标对象
+    const objs = Object.assign(objC, objA, objB)
+
+    // 我们将 objA objB objC obj 分别输出看看
+    console.log(objA)   // { name: 'cc', age: 18 }
+    console.log(objB) // { address: 'beijing' }
+    console.log(objC) // { name: 'cc', age: 18, address: 'beijing' }
+    console.log(objs) // { name: 'cc', age: 18, address: 'beijing' }
+    //Object.assign({}, objC, objA, objB)// so，如果objC也是你的一个源对象的话。请在objC前面填在一个目标对象{}
+
+    const people = {
+        name: 'lux',
+        age: 20
+    }
+    const {name,age} = people;
+    console.log(name + ' --- ' + age)
+
+    function* countAppleSales () {
+      var saleList = [3, 7, 5];
+      for (var i = 0; i < saleList.length; i++) {
+        yield saleList[i];
+      }
+    }
+    //一旦生成器函数已定义，可以通过构造一个迭代器来使用它。
+
+    var appleStore = countAppleSales(); // Generator { }
+    console.log(appleStore.next()); // { value: 3, done: false }
+    console.log(appleStore.next()); // { value: 7, done: false }
+    console.log(appleStore.next()); // { value: 5, done: false }
+    console.log(appleStore.next()); // { value: undefined, done: true }
+
+
+    var arrss=new Object();
+    function aa(obj){
+      obj.name="zy"
+    }
+    function bb(ar){
+      ar='aa'
+    }
+
+    aa(arrss);
+    console.log(arrss,111);
+    bb(arrss);
+    console.log(arrss,222)
+    //console.log()
+
+  </script>
+</body>
+</html>

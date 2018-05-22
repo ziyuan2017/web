@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>methods 案例</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>methods</h1>
+  <hr>
+  <div id="app">
+    {{num}}
+    <p><button @click="add(2,$event)">+</button></p>
+
+    <p><btn  @click.native="jian(2)"></btn></p>
+  </div>
+  <button onclick="app.add(5)">外部add</button>
+  <script type="text/javascript">
+    var btn={
+      template:`<button>111</button>`
+    }
+    var app=new Vue({
+      el:"#app",
+      data:{
+        num:0
+      },
+      components:{
+        'btn':btn
+      },
+      methods:{
+        add:function(i,event){
+          //console.log(event)
+          if(i!="")
+            this.num+=i;
+          else
+            this.num++
+        },
+        jian:function(i){
+          if(i!="")
+            this.num-=i;
+          else
+            this.num--
+        }
+      }
+
+    })
+  </script>
+</body>
+</html>

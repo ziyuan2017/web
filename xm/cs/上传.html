@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+	<head>
+		<title>oss文件上传</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		<style>
+            html{ font-size:100px; }
+            body, html { height: 100%; -webkit-tap-highlight-color: transparent; }
+            *,body{padding:0; margin:0;word-wrap:break-word;} 
+            ul,ol{ list-style:none;}
+            a { text-decoration: none;outline:none; color: #FF8200; /* FF Opera */}
+            a:hover { text-decoration: none; } 
+            a:focus{ -moz-outline-style: none; /* FF */ }
+            i,em,strong{ font-style: normal; }
+            input:focus { outline: none; }
+            .page{font-size: 14px; color: #333; padding-left:20px; padding-top:20px;}
+            .page>div{ margin-bottom: 10px; }
+            .root_sel{ overflow: hidden; }
+            .root_sel a{ float: left; display: inline-block; margin-right: 20px; }
+            .root_sel a.a_sel{ color: #ff8200; }
+        </style>
+	</head>
+
+	<body>
+		<div class="page">
+			<!-- <div class="root_sel">
+                <a href="javascript:;">测试</a>
+                <a href="javascript:;">线上</a>
+            </div> -->
+            <div>
+                文件命名路径(默认根目录下)：<input type="text" id='path' value='static/pagejs/'>
+            </div>
+            <div>文件命名(不填为默认名)：<input type="text" id="name"></div>
+            <div><input type="file" id="scBtn"/></div>
+            <div class="hdBox"></div>
+            <div class="swiper_box">
+                
+            </div>
+            <style>
+                .swiper_box{ width: 100px; height: 100px; position: relative; overflow: hidden; }
+                .swiper_box img{ position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; z-index:80; display: none; }
+            </style>
+		</div>
+
+		<!-- js文件引用 -->
+		<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+		<script type="text/javascript" src="js/huabeimao.js?t=20180116"></script>
+        <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/crypto/crypto.js?t=20180116"></script>
+        <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/hmac/hmac.js?t=20180116"></script>
+        <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/crypto1/sha1/sha1.js?t=20180116"></script>
+        <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/base64.js?t=20180116"></script>
+        <script type="text/javascript" src="http://oss-demo.aliyuncs.com/oss-h5-upload-js-direct/lib/plupload-2.1.2/js/plupload.full.min.js?t=20180116"></script>
+
+        <script type="text/javascript">
+        $(function(){
+            //轮播
+            var pics=['/static/images/sample/nav1.png','/static/images/sample/nav2.png','/static/images/sample/nav3.png','/static/images/sample/nav4.png'];
+            for(var i=0; i<pics.length;i++){
+                $('.swiper_box').append('<img src="'+pics[i]+'" />')
+            }
+            var wz=1;
+            var max=pics.length;
+            $('.swiper_box img').eq(0).show();
+            var swiper = setInterval(function(){
+                if(wz<max){
+                    $('.swiper_box img').eq(wz-1).fadeOut(1500);
+                    $('.swiper_box img').eq(wz).fadeIn(1500);
+                    wz++;
+                }else{
+                    $('.swiper_box img').eq(max-1).fadeOut(1500);
+                    $('.swiper_box img').eq(0).fadeIn(1500);
+                    wz=1;
+                }
+            },3000);
+
+            var oData={};
+            var policyText = {
+                "expiration": "2020-01-01T12:00:00.000Z", //设置该Policy的失效时间，超过这个失效时间之后，就没有办法通过这个policy上传文件了
+                "conditions": [
+                    ["content-length-range", 0, 1048576000] // 设置上传文件的大小限制
+                ]
+            };
+            //$(".root_sel a").eq(0).addClass('a_sel');
+            ossHandle(0);
+            function ossHandle(i){
+                if(i==0){
+                    //医美测试
+                    oData.accessid="LTAIwUU2XPcTmLXm";
+                    oData.accessKey="9bqQ8VKMLHloCpPegM0zUMrgw30nHv";
+                    oData.host="http://hbm-yimei-test.oss-cn-shanghai.aliyuncs.com";
+                }else if(i==1){
+                    //医美正式
+                    oData.accessid="LTAIwUU2XPcTmLXm";
+                    oData.accessKey="9bqQ8VKMLHloCpPegM0zUMrgw30nHv";
+                    oData.host="http://hbm-yimei.oss-cn-hangzhou.aliyuncs.com";
+                }else if(i==2){
+                    //教育测试
+                    oData.accessid="LTAIwUU2XPcTmLXm";
+                    oData.accessKey="9bqQ8VKMLHloCpPegM0zUMrgw30nHv";
+                    oData.host="http://hbm-edu-test.oss-cn-shanghai.aliyuncs.com";
+                }else if(i==3){
+                    //教育正式
+                    oData.accessid="LTAIwUU2XPcTmLXm";
+                    oData.accessKey="9bqQ8VKMLHloCpPegM0zUMrgw30nHv";
+                    oData.host="http://hbm-edu-test.oss-cn-shanghai.aliyuncs.com";
+                }else{
+                    return;
+                }
+                oData.policy = Base64.encode(JSON.stringify(policyText))
+                var accesskey= oData.accessKey;
+                var message = oData.policy;
+                var bytes = Crypto.HMAC(Crypto.SHA1, message, accesskey, { asBytes: true }) ;
+                oData.signature = Crypto.util.bytesToBase64(bytes);
+            }
+
+            // $(".root_sel a").on("click",function(){
+            //     $(".root_sel a").removeClass('a_sel');
+            //     $(this).addClass('a_sel');
+            //     ossHandle($(this).index());
+            // })
+
+    		$("#scBtn").on("change", function(e) {
+                var file = e.target.files[0]; //获取图片资源
+                var filename = file.name;
+                var ossData = new FormData();
+                var keys=($('#path').val()||'')+($('#name').val()||filename);
+                
+                // 添加配置参数
+                ossData.append('OSSAccessKeyId', oData.accessid);
+                ossData.append('policy', oData.policy);
+                ossData.append('Signature', oData.signature);
+                ossData.append('key',keys);
+                ossData.append('success_action_status', 201); // 指定返回的状态码
+                ossData.append('file', file, filename);
+                $.ajax({
+                    url: oData.host,
+                    data: ossData,
+                    dataType: 'xml', // 这里加个对返回内容的类型指定
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success:function(data){ //请求成功的回调函数
+                        console.log(data)
+                        if ($(data).find('PostResponse')) {
+                            var res = $(data).find('PostResponse');
+                            console.info('Bucket：' + res.find('Bucket').text() );
+                            console.info('Location：' + res.find('Location').text() );
+                            console.info('Key：' + res.find('Key').text() );
+                            console.info('ETag：' + res.find('ETag').text() );
+
+                            // var html= '<p>Bucket：' + res.find('Bucket').text()+'</p>'+
+                            //         '<p>Location：' + res.find('Location').text()+'</p>'+
+                            //         '<p>Key：' + res.find('Key').text()+'</p>'+
+                            //         '<p>ETag：' + res.find('ETag').text()+'</p><hr>';
+                            var html= '<p>Location：' + res.find('Location').text()+'</p>'+
+                                    '<p>Key：' + res.find('Key').text()+'</p><hr>';
+                              $('.hdBox').prepend(html);
+                         }
+                  　},
+                    error:function(XMLHttpRequest, status){  
+                        console.log(XMLHttpRequest);
+                    } 
+                });
+            });
+		})
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Component 组件</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>Component 组件</h1>
+  <hr>
+  <div id="app">
+    <zy></zy>
+    <panda></panda>
+  </div>
+  <hr>
+  <div id="ppa">
+    <zy></zy>
+  </div>
+
+  <script type="text/javascript">
+
+    Vue.component('zy',{
+      template:`
+        <div style="color:red;">我是全局的zy组件</div>
+      `
+    })
+
+    var app=new Vue({
+      el:"#app",
+      data:{
+        msg:'hello world!'
+      },
+      components:{
+        "panda":{
+          template:`
+            <div style="color:blue;">我是局部的panda组件</div>
+          `
+        }
+      }
+    })
+    var ppa=new Vue({
+      el:"#ppa",
+      data:{
+        msg:'hello world!'
+      }
+    })
+  </script>
+</body>
+</html>

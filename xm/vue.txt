@@ -1,0 +1,33 @@
+$ vue init webpack exprice 
+
+Project name (exprice) ---------------------项目名称
+Project description (A Vue.js project) ---------------------项目描述
+Author Datura --------------------- 项目创建者
+Install vue-router? (Y/n) --------------------- 是否安装Vue路由，也就是以后是spa（但页面应用需要的模块）
+Use ESLint to lint your code? (Y/n) n ---------------------是否启用eslint检测规则，这里个人建议选no
+
+
+cd exprice
+//安装依赖
+npm install
+//运行项目
+npm run dev
+
+//安装vue-router vue-resource
+cnpm install vue-router vue-resource --save
+//安装vuex
+cnpm install vuex --save
+
+//axios
+
+//安装Element组件库
+npm install element-ui --save
+
+//vue项目怎么添加一些触摸事件以及fastclick的支持
+npm install fastclick -D
+//在main.js中引入，并绑定到body
+import FastClick from 'fastclick'
+FastClick.attach(document.body)
+
+//document.write('<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.0&key=9bca9c83661fe66eac234be898143a9c&plugin=AMap.Geocoder"></script>');
+    

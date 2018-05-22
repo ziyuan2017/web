@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>example slot Demo</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+</head>
+<body>
+  <h1>example slot Demo</h1>
+  <hr>
+  <div id="app">
+    <zy>
+      <span slot="url">{{vueData.url}}</span>
+      <span slot="name">{{vueData.name}}</span>
+      <span slot="skill">{{vueData.skill}}</span>
+    </zy>
+  </div>
+  <template id="tep">
+    <div>
+      <p>网站：<slot name="url"></slot></p>
+      <p>名称：<slot name="name"></slot></p>
+      <p>介绍：<slot name="skill"></slot></p>
+    </div>
+
+  </template>
+
+  <script type="text/javascript">
+    var zy={
+      template:"#tep"
+    }
+    var app=new Vue({
+      el:"#app",
+      data:{
+        vueData:{
+          url:"https://cn.vuejs.org",
+          name:"vue官网",
+          skill:"前端框架"
+        }
+      },
+      components:{
+        "zy":zy
+      }
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+	<head>
+		<title>测试2</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		<script>
+               (function(b){var a={};a.Html=b.getElementsByTagName("html")[0];a.widthProportion=function(){var c=(b.body&&b.body.clientWidth||a.Html.offsetWidth)/750;return c>1?1:c<0.4?0.4:c};a.changePage=function(){a.Html.setAttribute("style","font-size:"+a.widthProportion()*100+"px !important")};a.changePage();setInterval(a.changePage,100)})(document);
+		</script>
+		<!-- 引用css文件 -->
+		<link rel="stylesheet" href="../edu/static/css/style.css?t=20180116">
+          <!-- js文件引用 -->
+          <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js?t=20180116"></script>
+          <script type="text/javascript" src="js/huabeimao.js?t=20180116"></script>
+	</head>
+
+	<body>
+
+		<div class="hbm_page hbm_bg_huise">
+			<!-- 提醒 -->
+			<section class="main_dw" style="padding:20px;">
+                    <div class="table" style="display: none;">
+                    </div>
+                    <div>
+                         <div class="hk_tit">
+                              <p>还利息月份：</p>
+                              <p>无利息月份：</p>
+                              <p>还款方式：</p>
+                              <p>利率：</p>
+                         </div>
+                         <ul class="hk_list"></ul>
+                         <a class="hk_add" href="javascript:;">+</a>
+
+                         <style>
+                         .hk_tit{ overflow: hidden; }
+                         .hk_tit p{ width: 92px; color: #333; font-size: 12px; float: left; }
+                         .hk_list{ padding-top: 5px; }
+                         .hk_list li{overflow: hidden; margin-bottom:5px;}
+                         .sel_box{width: 80px; height: 24px; margin-right: 15px; border: 0px; border:1px solid #dcdcdc; font-size: 12px; text-indent: 4px; outline:none;float: left;}
+                         
+                         </style>
+
+
+                         <script type="text/javascript">
+                              var num=0;
+                              function hkAdd(i){
+                                   var htm='<li>'
+                                        +'<select class="sel_box" id="sel1'+i+'" name="sel1'+i+'">'
+                                        +     '<option value="3">3</option>'
+                                        +     '<option value="4">4</option>'
+                                        +     '<option value="6">6</option>'
+                                        +     '<option value="7">9</option>'
+                                        +     '<option value="12">12</option>'
+                                        +'</select>'
+                                        +'<select class="sel_box" id="sel2'+i+'" name="sel2'+i+'">'
+                                        +     '<option value="3">3</option>'
+                                        +     '<option value="6">6</option>'
+                                        +     '<option value="9">9</option>'
+                                        +     '<option value="12">12</option>'
+                                        +     '<option value="24">24</option>'
+                                        +'</select>'
+                                        +'<select class="sel_box" id="type'+i+'" name="type'+i+'">'
+                                        +     '<option value="0">先息后本</option>'
+                                        +     '<option value="1">等额本息 </option>'
+                                        +'</select>'
+                                        +'<input class="sel_box" type="text" id="min'+i+'" name="min'+i+'">'
+                                        +'</li>';
+                                   return htm;
+                              }
+                              $('.hk_add').on('click',function(){
+                                   num++;
+                                   $('.hk_list').append(hkAdd(num));
+                              })
+                         </script>
+                    </div>
+			</section>
+		</div>
+
+		<script type="text/javascript">
+			$(function(){
+                    var aa={"body":{"code":200,"data":{"bankStatus":0,"educationStatus":0,"fundStatus":0,"id":1,"idCard":"350182198705104318","quota":6000000,"quotaStatus":2,"securityStatus":0,"userId":102,"zmStatus":0},"msg":"success","note":"您的额度已生成，请查看"},"headers":{},"statusCode":"OK","statusCodeValue":200};
+                    console.log(aa)
+                    dom2=scDom(aa);
+
+                    //$('.table').html(dom2)
+                    console.log(dom2)
+
+                    console.log(eachData(aa))
+                    $('.table').html(eachData(aa))
+
+
+                    //var aa=JSON.parse(d);
+                    //eachData(aa)
+                    function eachData(data){
+                         var txt='<div style="margin-left:20px;">';
+                         var sum=Object.getOwnPropertyNames(data).length;
+                         var add=0;
+                         $.each(data,function(v,k){
+                              add++;
+                              var dom=v+':';
+                              if(Object.prototype.toString.call(k) === '[object Object]'){
+                                   if(Object.getOwnPropertyNames(k).length>0){
+                                        dom += '{'+eachData(k)+'}';
+                                   }else{
+                                        dom += '{}';
+                                   }
+                              }else{
+                                   dom += k;
+                              }
+                              txt+=(add==sum)?(dom+'</br>'):(dom+',</br>');
+                         })
+                         return txt+'</div>';
+                    }
+
+                    //表格集合
+                    function scDom(d){
+                         //var a=JSON.parse(d);
+                         a=d;
+                         var dom='';
+                         if(Object.prototype.toString.call(a) === '[object Object]'){
+                              for(var item in a){
+                                   if(Object.prototype.toString.call(a[item]) === '[object Array]'){
+                                        dom=dom+scTabled(a[item],item);
+                                   }else{
+                                        var ls=[a];
+                                        dom=scTabled(ls,'');
+                                        break;
+                                   }
+                              } 
+                         }else if(Object.prototype.toString.call(a) === '[object Array]'){
+                              dom=scTabled(a,'');
+                         }else{
+                              dom=d;
+                         }
+                         return '<div class="te_box">'+dom+'</div>';
+                    }
+
+                    //创建单独表格dom
+                    function scTabled(data,tit){
+                         var title='';
+                         console.log(data,tit)
+                         if(tit!==''){
+                              title='<caption>'+tit+'</caption>';
+                         }
+                         var thead='<thead>';
+                         var tbody='<tbody>';
+                         if(data.length==0){
+                              var table='<table class="tas_table"><caption>'+tit+'<p>暂无数据</p></caption></table>';
+                              return table;
+                         }
+                         var k=0;
+                         for(var i=0;i<data.length;i++){
+                              if(i==0){
+                                   var th='';
+                                   for(var item in data[i]){
+                                        var ltit=item;
+                                        th=th+'<th>'+ltit+'</th>';
+                                        k++;
+                                   } 
+                                   thead=thead+'<tr>'+th+'</tr></thead>';
+                              }
+                              var td='';
+                              for(var item in data[i]){
+                                   td=td+'<td>'+data[i][item]+'</td>';
+                              } 
+                              tbody=tbody+'<tr>'+td+'</tr>';
+                         }
+                         tbody=tbody+'</tbody>';
+                         var table='<table class="tas_table">'+title+thead+tbody+'</table>';
+                         return table;
+                    }
+
+			})
+		</script>
+
+	</body>
+</html>

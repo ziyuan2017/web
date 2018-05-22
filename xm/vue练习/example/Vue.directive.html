@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue.directive自定义指令</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <h1>Vue.directive自定义指令</h1>
+  <hr>
+  <div id="app">
+    <div v-diy="color2">{{num}}</div>
+    <p><button @click="add">add</button></p>
+    <!-- <p><button @click="reduce">-</button></p> -->
+  </div>
+
+  <p><button onclick="unbind()">解绑</button></p>
+
+  <script type="text/javascript">
+    // Vue.directive('diy',function(el,binding,vnode){
+    // el: 指令所绑定的元素，可以用来直接操作DOM。
+    //binding:  一个对象，包含指令的很多信息。
+    //vnode: Vue编译生成的虚拟节点
+    //   console.log(el);//指令所绑定的元素，可以用来直接操作DOM
+    //   console.log(binding);//自定义指令信息
+    //   console.log(binding.name);//自定义指令名称diy
+    //   console.log(binding.value);//data里的属性值
+    //   console.log(binding.expression);//data里的属性值
+    //   console.log(binding.rawName);//指令调动v-diy
+    //   el.style="color:"+binding.value;
+    // })
+    //
+    //自定义指令
+    Vue.directive('diy',{
+        bind:function(el,binding){//被绑定
+             console.log('1 - bind');
+             el.style="color:"+binding.value;
+        },
+        inserted:function(el,binding){//绑定到节点
+              console.log('2 - inserted');
+        },
+        update:function(el,binding){//组件更新
+              console.log('3 - update');
+        },
+        componentUpdated:function(el,binding){//组件更新完成
+              console.log('4 - componentUpdated');
+        },
+        unbind:function(el,binding){//解绑
+              console.log('5 - unbind');
+        }
+    })
+    //解绑自定义指令
+    function unbind(){
+      app.$destroy();
+    }
+
+
+    var app=new Vue({
+      el:"#app",
+      data:{
+        num:0,
+        color:'red',
+        color2:'blue',
+      },
+      methods:{
+        add:function(){
+          this.num++
+        },
+        reduce:function(){
+          this.num--
+        }
+      }
+    })
+  </script>
+</body>
+</html>
